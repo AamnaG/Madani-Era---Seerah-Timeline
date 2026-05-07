@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Madinan Era — Seerah Timeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf8f4;
+    --bg2: #f2efe9;
+    --bg3: #e9e5dc;
+    --ink: #1c1917;
+    --ink2: #57534e;
+    --ink3: #a8a29e;
+    --border: rgba(28,25,23,0.10);
+    --border2: rgba(28,25,23,0.18);
+
+    --battle-bg: #fdf1ec;
+    --battle-border: #c2582a;
+    --battle-text: #7c3010;
+    --battle-dot: #d4622f;
+
+    --event-bg: #eef6f1;
+    --event-border: #2e8a5c;
+    --event-text: #1a5c3a;
+    --event-dot: #2e8a5c;
+
+    --personal-bg: #f3f1fb;
+    --personal-border: #7165cc;
+    --personal-text: #3d3489;
+    --personal-dot: #7165cc;
+
+    --legislation-bg: #fdf5e6;
+    --legislation-border: #b07a18;
+    --legislation-text: #7a5210;
+    --legislation-dot: #c28920;
+
+    --serif: 'EB Garamond', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --radius: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #181614;
+      --bg2: #221f1c;
+      --bg3: #2e2a26;
+      --ink: #f0ece6;
+      --ink2: #a8a29e;
+      --ink3: #6b6560;
+      --border: rgba(240,236,230,0.09);
+      --border2: rgba(240,236,230,0.16);
+      --battle-bg: #2c1a12;
+      --battle-border: #c2582a;
+      --battle-text: #e8a07a;
+      --battle-dot: #d4622f;
+      --event-bg: #0f2218;
+      --event-border: #2e8a5c;
+      --event-text: #7ecba1;
+      --event-dot: #3aaa70;
+      --personal-bg: #1a1630;
+      --personal-border: #7165cc;
+      --personal-text: #b0a8ef;
+      --personal-dot: #8f86d8;
+      --legislation-bg: #241a08;
+      --legislation-border: #c28920;
+      --legislation-text: #e0b862;
+      --legislation-dot: #c28920;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .page-header {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .era-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 4px;
+  }
+
+  .page-header h1 {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter-label {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-right: 4px;
+  }
+
+  .filter-btn {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--ink2);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .filter-btn .dot-badge {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .filter-btn:hover { background: var(--bg3); color: var(--ink); }
+
+  .filter-btn.active {
+    color: var(--ink);
+    background: var(--bg3);
+    border-color: var(--border2);
+    font-weight: 500;
+  }
+
+  .filter-btn.active.battle { background: var(--battle-bg); border-color: var(--battle-border); color: var(--battle-text); }
+  .filter-btn.active.event  { background: var(--event-bg);  border-color: var(--event-border);  color: var(--event-text); }
+  .filter-btn.active.personal { background: var(--personal-bg); border-color: var(--personal-border); color: var(--personal-text); }
+  .filter-btn.active.legislation { background: var(--legislation-bg); border-color: var(--legislation-border); color: var(--legislation-text); }
+
+  /* ── Timeline container ── */
+  .tl-outer {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+  }
+
+  /* ── Year group ── */
+  .year-group { margin-bottom: 0; }
+
+  .year-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 20px 0 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .year-ah {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .year-ce {
+    font-size: 12px;
+    color: var(--ink3);
+    font-weight: 300;
+  }
+
+  .year-divider {
+    flex: 1;
+    height: 1px;
+    /* just spacing */
+  }
+
+  /* ── Entry row ── */
+  .entry-row {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+    padding-bottom: 0;
+  }
+
+  .dot-col {
+    width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 14px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .dot.battle    { background: var(--battle-dot); box-shadow: 0 0 0 3px rgba(212,98,47,.15); }
+  .dot.event     { background: var(--event-dot); }
+  .dot.personal  { background: var(--personal-dot); }
+  .dot.legislation { background: var(--legislation-dot); }
+
+  .line-seg {
+    width: 1px;
+    background: var(--border2);
+    flex: 1;
+    margin-top: 6px;
+    min-height: 16px;
+  }
+
+  /* ── Card ── */
+  .entry-card {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left-width: 3px;
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin: 6px 0 8px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s, transform .1s;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+
+  .entry-card:hover {
+    border-color: var(--border2);
+    background: var(--bg2);
+    transform: translateX(2px);
+  }
+
+  .entry-card.battle    { border-left-color: var(--battle-dot); }
+  .entry-card.event     { border-left-color: var(--event-dot); }
+  .entry-card.personal  { border-left-color: var(--personal-dot); }
+  .entry-card.legislation { border-left-color: var(--legislation-dot); }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 3px;
+  }
+
+  .card-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.35;
+    flex: 1;
+  }
+
+  .card-badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .card-badge.battle    { background: var(--battle-bg); color: var(--battle-text); }
+  .card-badge.event     { background: var(--event-bg);  color: var(--event-text); }
+  .card-badge.personal  { background: var(--personal-bg); color: var(--personal-text); }
+  .card-badge.legislation { background: var(--legislation-bg); color: var(--legislation-text); }
+
+  .card-month {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 5px;
+    font-style: italic;
+    font-family: var(--serif);
+  }
+
+  .card-desc {
+    font-size: 13.5px;
+    color: var(--ink2);
+    line-height: 1.55;
+  }
+
+  .card-participants {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .part-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: var(--ink3);
+    border-radius: 50%;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cellipse cx='12' cy='18' rx='6' ry='4'/%3E%3C/svg%3E") center/cover;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cellipse cx='12' cy='18' rx='6' ry='4'/%3E%3C/svg%3E") center/cover;
+  }
+
+  .hidden { display: none !important; }
+
+  /* ── Footer note ── */
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink3);
+    padding-top: 2rem;
+    font-style: italic;
+    font-family: var(--serif);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-note a {
+    color: var(--ink3);
+    text-decoration: underline;
+  }
+
+  /* ── Results count ── */
+  .results-bar {
+    font-size: 12px;
+    color: var(--ink3);
+    margin-bottom: 1rem;
+    padding-top: 0.25rem;
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <div class="header-inner">
+    <p class="era-label">Seerah Snapshot · The Madinan Period · 1–11 AH</p>
+    <h1>The Madinan Era Timeline</h1>
+    <div class="filter-bar">
+      <span class="filter-label">Filter:</span>
+      <button class="filter-btn active" data-filter="all">All events</button>
+      <button class="filter-btn battle" data-filter="battle">
+        <span class="dot-badge" style="background:var(--battle-dot)"></span>
+        Battles &amp; conquests
+      </button>
+      <button class="filter-btn event" data-filter="event">
+        <span class="dot-badge" style="background:var(--event-dot)"></span>
+        Key events
+      </button>
+      <button class="filter-btn legislation" data-filter="legislation">
+        <span class="dot-badge" style="background:var(--legislation-dot)"></span>
+        Legislation
+      </button>
+      <button class="filter-btn personal" data-filter="personal">
+        <span class="dot-badge" style="background:var(--personal-dot)"></span>
+        Personal &amp; family
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="tl-outer">
+  <p class="results-bar" id="results-bar"></p>
+  <div id="tl"></div>
+  <p class="footer-note">
+    Source: <a href="https://www.inkoffaith.com/post/the-seerah-snapshot" target="_blank">The Seerah Snapshot by Mohammad Zahid</a>, Ink of Faith.
+    BH = Before Hijrah &nbsp;·&nbsp; AH = After Hijrah. Scholars differ on certain dates.
+  </p>
+</main>
+
+<script>
+const data = [
+  { year: 1, ce: "622–623 CE", month: "Rabi' al-Awwal", type: "event", title: "Arrival in Quba & foundation of Masjid Quba", desc: "The Prophet ﷺ laid the foundations of Masjid Quba — the first mosque in Islam — in the area of Bani Amr bin Awf upon his arrival in Madinah." },
+  { year: 1, ce: "622–623 CE", month: "Rabi' al-Awwal", type: "event", title: "First Friday Prayer (Jumu'ah)", desc: "The first Jumu'ah prayer was led by the Prophet ﷺ in the area of Banu Salim bin Awf." },
+  { year: 1, ce: "622–623 CE", month: "Rabi' al-Awwal", type: "event", title: "Foundation of Masjid al-Nabawi", desc: "The Prophet ﷺ began laying the foundations of Masjid al-Nabawi, the Prophet's Mosque, which would become the spiritual heart of the new Muslim community." },
+  { year: 1, ce: "622–623 CE", month: "Shawwal", type: "personal", title: "Marriage consummated with Aishah رضي الله عنها", desc: "The Prophet ﷺ consummated his marriage with Aishah bint Abi Bakr رضي الله عنها." },
+  { year: 1, ce: "622–623 CE", month: "", type: "legislation", title: "Adhan (call to prayer) legislated", desc: "The Adhan — the call to prayer — was prescribed for the first time, establishing one of the most recognisable symbols of Islam." },
+  { year: 1, ce: "622–623 CE", month: "", type: "legislation", title: "Five prayers extended to four rak'at", desc: "The 5 daily prayers were extended to 4 rak'at for residents, with Maghrib and Fajr remaining at 3 and 2 respectively." },
+  { year: 1, ce: "622–623 CE", month: "", type: "legislation", title: "Jihad permitted", desc: "Divine permission for armed struggle in the defence of Islam was granted to the Muslims." },
+  { year: 2, ce: "623–624 CE", month: "Safar", type: "battle", title: "Ghazwa of al-Abwa", desc: "The first military expedition in which the Prophet ﷺ himself participated. The Muslims marched toward al-Abwa but no engagement took place.", participants: null },
+  { year: 2, ce: "623–624 CE", month: "Rajab", type: "legislation", title: "Qiblah changed to the Ka'bah", desc: "The direction of prayer was changed from Masjid al-Aqsa in Jerusalem to the Ka'bah in Makkah — a pivotal moment in the definition of Muslim identity." },
+  { year: 2, ce: "623–624 CE", month: "Sha'ban", type: "legislation", title: "Fasting of Ramadan legislated", desc: "The obligation of fasting the holy month of Ramadan was revealed." },
+  { year: 2, ce: "623–624 CE", month: "Ramadan", type: "battle", title: "Battle of Badr al-Kubra", desc: "The first and most decisive major battle of Islam. A Muslim force of 313 — poorly equipped but resolute — defeated a Qurayshi army of around 1,000. Fourteen Muslims were martyred while 70 of the enemy were killed and 70 captured. The Qur'an calls it the 'Day of Distinction'.", participants: "313 Muslim participants" },
+  { year: 2, ce: "623–624 CE", month: "Ramadan", type: "legislation", title: "Zakat al-Fitr legislated", desc: "The obligatory charity to be paid at the end of Ramadan before the Eid prayer was prescribed." },
+  { year: 2, ce: "623–624 CE", month: "", type: "legislation", title: "Zakat al-Maal legislated", desc: "The obligatory annual wealth tax (Zakat) on savings and assets was prescribed as one of the five pillars of Islam." },
+  { year: 2, ce: "623–624 CE", month: "Shawwal", type: "event", title: "Expulsion of Banu Qaynuqah", desc: "The Jewish tribe of Banu Qaynuqah was expelled from Madinah after breaching the Constitution of Madinah by assaulting a Muslim woman and then ambushing a Muslim man who reacted." },
+  { year: 2, ce: "623–624 CE", month: "Dhul Hijjah", type: "event", title: "First Eid al-Adha & Udhiyah sacrifice", desc: "The Muslims celebrated Eid al-Adha and performed the sacrificial Udhiyah for the first time, following the establishment of the Islamic calendar." },
+  { year: 3, ce: "624–625 CE", month: "Sha'ban", type: "personal", title: "Prophet ﷺ married Hafsah رضي الله عنها", desc: "The Prophet ﷺ married Hafsah bint Umar ibn al-Khattab رضي الله عنها, the daughter of the second Caliph." },
+  { year: 3, ce: "624–625 CE", month: "Ramadan", type: "personal", title: "Grandson Hasan bin Ali رضي الله عنه born", desc: "The Prophet's ﷺ beloved grandson Hasan bin Ali رضي الله عنه was born — the elder of the two 'masters of the youth of Paradise'." },
+  { year: 3, ce: "624–625 CE", month: "Shawwal", type: "battle", title: "Battle of Uhud", desc: "A hard-fought encounter near Mount Uhud outside Madinah. Early Muslim gains were reversed when archers abandoned their post on the hill, allowing Khalid bin al-Walid (then fighting for the Quraysh) to outflank the Muslims. Seventy Muslims were martyred, including Hamza رضي الله عنه, the 'Lion of Allah'. The Prophet ﷺ himself was wounded.", participants: "650–700 Muslim participants" },
+  { year: 4, ce: "625–626 CE", month: "Sha'ban", type: "battle", title: "Battle of Dhat ar-Riqa'", desc: "An expedition to the Najd region against the Ghatafan tribes, during which the Prayer of Fear (Salat al-Khawf) was first prescribed.", participants: "400–700 participants" },
+  { year: 4, ce: "625–626 CE", month: "Shawwal", type: "event", title: "Siege & expulsion of Banu an-Nadhir", desc: "The Jewish tribe of Banu an-Nadhir was besieged and expelled from Madinah after plotting to assassinate the Prophet ﷺ, in violation of the Constitution of Madinah." },
+  { year: 4, ce: "625–626 CE", month: "Shawwal", type: "personal", title: "Prophet ﷺ married Umm Salamah رضي الله عنها", desc: "The Prophet ﷺ married Umm Salamah رضي الله عنها, the widow of Abu Salamah who had been martyred at Uhud." },
+  { year: 4, ce: "625–626 CE", month: "", type: "legislation", title: "Alcohol (khamr) prohibited", desc: "The consumption of alcohol was definitively and permanently forbidden in a final verse of revelation." },
+  { year: 4, ce: "625–626 CE", month: "Ramadan", type: "personal", title: "Grandson Husayn bin Ali رضي الله عنه born", desc: "The Prophet's ﷺ beloved grandson Husayn bin Ali رضي الله عنه was born — the younger of the two 'masters of the youth of Paradise'." },
+  { year: 4, ce: "625–626 CE", month: "", type: "legislation", title: "Tayammum (dry ablution) legislated", desc: "The permission to use clean earth as a substitute for water in ablution (tayammum) was revealed, a mercy for travellers and the ill." },
+  { year: 5, ce: "626–627 CE", month: "Sha'ban", type: "battle", title: "Battle of al-Muraysi (Banu al-Mustaliq)", desc: "The Muslims defeated the Banu al-Mustaliq tribe who had been preparing to attack Madinah. The Mother of the Believers Juwayriyah رضي الله عنها was among those captured, leading to her marriage to the Prophet ﷺ and the freeing of her entire tribe.", participants: null },
+  { year: 5, ce: "626–627 CE", month: "Shawwal", type: "battle", title: "Battle of the Trench (al-Khandaq / Ahzab)", desc: "A coalition of Quraysh, Ghatafan, and Jewish tribes — some 10,000 strong — marched on Madinah. On the advice of Salman al-Farsi رضي الله عنه, the Muslims dug a trench along the exposed northern frontier. After a month-long siege, the confederates withdrew. A turning point: the enemies never again marched on Madinah.", participants: "~3,000 Muslim defenders vs ~10,000 confederates" },
+  { year: 5, ce: "626–627 CE", month: "Dhul Qa'dah", type: "event", title: "Siege of Banu Qurayzah", desc: "The Jewish tribe of Banu Qurayzah was besieged for 25 days after treacherously collaborating with the Confederate forces during the Battle of the Trench." },
+  { year: 5, ce: "626–627 CE", month: "", type: "legislation", title: "Hijab legislated", desc: "The Qur'anic verses prescribing the veil and modesty for Muslim women were revealed." },
+  { year: 6, ce: "627–628 CE", month: "Dhul Qa'dah", type: "event", title: "Pledge of Ridwan & Treaty of Hudaybiyah", desc: "The Prophet ﷺ led 1,400 companions to perform Umrah but was blocked at Hudaybiyah. The Pledge of Ridwan was taken under a tree — Allah praised those who gave it in the Qur'an. A peace treaty with the Quraysh followed, which, though seemingly unfavourable, the Qur'an called 'a manifest victory'.", participants: "1,400 companions" },
+  { year: 6, ce: "627–628 CE", month: "", type: "personal", title: "Prophet ﷺ married Umm Habibah رضي الله عنها", desc: "The Prophet ﷺ married Umm Habibah bint Abi Sufyan رضي الله عنها while she was still in Abyssinia, arranged through the Negus." },
+  { year: 7, ce: "628–629 CE", month: "Rabi' al-Awwal", type: "battle", title: "Battle of Khaybar", desc: "The Muslim forces captured the heavily fortified Jewish stronghold of Khaybar north of Madinah after a siege. Ali رضي الله عنه distinguished himself greatly. The Prophet ﷺ was poisoned here by a Jewish woman — the effects of which he felt until his death.", participants: "1,420 participants (incl. 20 women)" },
+  { year: 7, ce: "628–629 CE", month: "Muharram", type: "event", title: "Letters to world rulers", desc: "The Prophet ﷺ dispatched ambassadors carrying ~22–25 letters to rulers including Heraclius (Byzantine Emperor), Khosrow II (Sassanid King), the Negus of Abyssinia, and Al-Muqawqis of Egypt, inviting them to Islam." },
+  { year: 7, ce: "628–629 CE", month: "Dhul Qa'dah", type: "event", title: "Umrah al-Qada — the Fulfilled Umrah", desc: "As stipulated by the Treaty of Hudaybiyah, the Muslims entered Makkah peacefully for three days to perform the Umrah they had been turned away from the previous year." },
+  { year: 7, ce: "628–629 CE", month: "Rabi' al-Awwal", type: "personal", title: "Prophet ﷺ married Safiyyah رضي الله عنها", desc: "The Prophet ﷺ married Safiyyah bint Huyayy رضي الله عنها, a woman of noble lineage from the tribe of Banu an-Nadhir, after the Battle of Khaybar." },
+  { year: 8, ce: "629–630 CE", month: "Jumada al-Awwal", type: "battle", title: "Battle of Mu'tah", desc: "The first engagement between the Muslims and the Byzantine Empire, fought in present-day Jordan. Three commanders were martyred in succession — Zayd bin Harithah, Ja'far bin Abi Talib, and Abdullah bin Rawahah رضي الله عنهم. Khalid bin al-Walid رضي الله عنه then led a masterful tactical withdrawal. The Prophet ﷺ announced their martyrdom from Madinah before any messenger arrived.", participants: "3,000 Muslims vs a much larger Byzantine force" },
+  { year: 8, ce: "629–630 CE", month: "Ramadan", type: "battle", title: "Conquest of Makkah (Fath Makkah)", desc: "The Prophet ﷺ led 10,000 Muslims into Makkah in a near-bloodless conquest — one of the most momentous moments in Islamic history. The Prophet ﷺ entered with his head bowed in humility. He granted a general amnesty to the Quraysh, purified the Ka'bah of its 360 idols, and restored it to the worship of Allah alone.", participants: "10,000 participants" },
+  { year: 8, ce: "629–630 CE", month: "Shawwal", type: "battle", title: "Battle of Hunayn & Siege of Ta'if", desc: "Despite an initial ambush by the Hawazin and Thaqif tribes in the narrow valley of Hunayn — causing a brief panic — the Muslims regrouped around the Prophet ﷺ and achieved a decisive victory. The siege of Ta'if followed but was eventually lifted.", participants: "12,000 participants" },
+  { year: 8, ce: "629–630 CE", month: "Dhul Qa'dah", type: "event", title: "Umrah al-Ji'rranah", desc: "The Prophet ﷺ performed Umrah from Ji'rranah near Ta'if after distributing the enormous spoils of Hunayn." },
+  { year: 9, ce: "630–631 CE", month: "Rajab", type: "battle", title: "Battle of Tabuk (Jaysh al-Usrah)", desc: "The largest and most arduous expedition of the Prophet's ﷺ life — known as the 'Army of Hardship' for the extreme heat and scarcity of provisions. The Muslim force marched 700 miles north toward Byzantine territory. No engagement took place, but Byzantine-aligned tribes submitted. The three companions who stayed behind without excuse were boycotted for 50 days before Allah accepted their repentance.", participants: "30,000 participants" },
+  { year: 9, ce: "630–631 CE", month: "", type: "event", title: "Year of the Delegations (Sanat al-Wufud)", desc: "Delegations from tribes across the Arabian Peninsula arrived in Madinah in succession to accept Islam and pledge allegiance to the Prophet ﷺ, marking Islam's reach across Arabia." },
+  { year: 9, ce: "630–631 CE", month: "Sha'ban / Ramadan", type: "event", title: "Masjid ad-Dirar demolished", desc: "A mosque built by the Munafiqun (hypocrites) to cause division among the Muslims was demolished on the command of the Prophet ﷺ upon his return from Tabuk, as revealed in Surah at-Tawbah." },
+  { year: 9, ce: "630–631 CE", month: "", type: "legislation", title: "Hajj legislated", desc: "The obligation of the pilgrimage to Makkah (Hajj) was prescribed — the fifth pillar of Islam." },
+  { year: 9, ce: "630–631 CE", month: "Dhul Hijjah", type: "event", title: "Abu Bakr leads the first Hajj", desc: "Abu Bakr as-Siddiq رضي الله عنه was appointed to lead the Muslims in Hajj. Ali رضي الله عنه was sent to announce that polytheists would no longer be permitted to enter Makkah from the following year." },
+  { year: 10, ce: "631–632 CE", month: "Dhul Hijjah", type: "event", title: "The Farewell Pilgrimage (Hajjat al-Wada')", desc: "The Prophet ﷺ performed his one and only Hajj, accompanied by tens of thousands of companions. At Arafat, he delivered the Farewell Sermon — a landmark declaration of human rights, brotherhood, and Islamic principles. He asked three times: 'Have I conveyed the message?' The crowd answered: 'Yes.' He said: 'O Allah, bear witness.'" },
+  { year: 11, ce: "632 CE", month: "Rabi' al-Awwal 12", type: "personal", title: "The Prophet ﷺ passes away", desc: "The Prophet Muhammad ﷺ passed away on a Monday, the 12th of Rabi' al-Awwal, in the house of Aishah رضي الله عنها, with his head resting in her lap. He was 63 years old. The companions were devastated; Umar رضي الله عنه drew his sword and threatened anyone who said the Prophet had died. Abu Bakr said: 'O people, whoever worshipped Muhammad, Muhammad has died. But whoever worshipped Allah — Allah is Ever-Living and never dies.' إِنَّا لِلَّٰهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ" },
+  { year: 11, ce: "632 CE", month: "Rabi' al-Awwal 13", type: "event", title: "Abu Bakr as-Siddiq رضي الله عنه appointed first Khalifah", desc: "The Muslims pledged allegiance to Abu Bakr رضي الله عنه as the first Khalifah (Caliph) of the Muslims, the day after the Prophet's ﷺ passing." },
+];
+
+const badgeLabels = {
+  battle: "Battle",
+  event: "Event",
+  personal: "Personal",
+  legislation: "Legislation"
+};
+
+function buildTimeline(filter) {
+  const tl = document.getElementById('tl');
+  tl.innerHTML = '';
+  const years = [...new Set(data.map(d => d.year))];
+  let total = 0;
+  years.forEach(y => {
+    const items = data.filter(d => d.year === y && (filter === 'all' || d.type === filter));
+    if (!items.length) return;
+    total += items.length;
+    const ce = items[0].ce;
+    const grp = document.createElement('div');
+    grp.className = 'year-group';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'year-header';
+    hdr.innerHTML = `<span class="year-ah">${y} AH</span><span class="year-ce">${ce}</span>`;
+    grp.appendChild(hdr);
+
+    items.forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.className = 'entry-row';
+
+      const dotCol = document.createElement('div');
+      dotCol.className = 'dot-col';
+      const dot = document.createElement('div');
+      dot.className = `dot ${item.type}`;
+      dotCol.appendChild(dot);
+      const seg = document.createElement('div');
+      seg.className = 'line-seg';
+      dotCol.appendChild(seg);
+
+      const card = document.createElement('div');
+      card.className = `entry-card ${item.type}`;
+      card.setAttribute('role', 'article');
+      card.setAttribute('tabindex', '0');
+
+      let html = '';
+      if (item.month) html += `<div class="card-month">${item.month}</div>`;
+      html += `<div class="card-top"><div class="card-title">${item.title}</div><span class="card-badge ${item.type}">${badgeLabels[item.type]}</span></div>`;
+      if (item.desc) html += `<div class="card-desc">${item.desc}</div>`;
+      if (item.participants) html += `<div class="card-participants"><span class="part-icon"></span>${item.participants}</div>`;
+      card.innerHTML = html;
+
+      row.appendChild(dotCol);
+      row.appendChild(card);
+      grp.appendChild(row);
+    });
+    tl.appendChild(grp);
+  });
+
+  const bar = document.getElementById('results-bar');
+  bar.textContent = filter === 'all'
+    ? `${total} events across 11 years of the Madinan era`
+    : `Showing ${total} ${badgeLabels[filter].toLowerCase()} event${total !== 1 ? 's' : ''}`;
+}
+
+buildTimeline('all');
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    buildTimeline(btn.dataset.filter);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
